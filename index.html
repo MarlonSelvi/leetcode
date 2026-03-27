@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LeetCode Solutions</title>
-  <style>
+ <style>
     * {
       margin: 0;
       padding: 0;
@@ -12,19 +12,19 @@
     }
 
     body {
-      background-color: #1a1a2e;
-      color: #e0e0e0;
+      background-color: #000000;
+      color: #ffffff;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       min-height: 100vh;
     }
 
     header {
-      background-color: #0f0f1a;
+      background-color: #000000;
       padding: 24px 40px;
       display: flex;
       align-items: center;
       gap: 16px;
-      border-bottom: 3px solid #ffa116;
+      border-bottom: 3px solid #ffffff;
     }
 
     header h1 {
@@ -34,7 +34,7 @@
     }
 
     header h1 span {
-      color: #ffa116;
+      color: #ffffff;
     }
 
     .container {
@@ -44,7 +44,7 @@
     }
 
     .subtitle {
-      color: #9a9a9a;
+      color: #999999;
       margin-bottom: 24px;
       font-size: 14px;
     }
@@ -57,15 +57,15 @@
     }
 
     .solution-item {
-      background-color: #222240;
+      background-color: #111111;
       border-radius: 8px;
       overflow: hidden;
-      border: 1px solid #2d2d50;
+      border: 1px solid #333333;
       transition: border-color 0.2s;
     }
 
     .solution-item:hover {
-      border-color: #ffa116;
+      border-color: #ffffff;
     }
 
     .solution-link {
@@ -73,18 +73,18 @@
       align-items: center;
       justify-content: space-between;
       padding: 16px 20px;
-      color: #e0e0e0;
+      color: #ffffff;
       text-decoration: none;
       cursor: pointer;
       user-select: none;
     }
 
     .solution-link:hover {
-      color: #ffa116;
+      color: #cccccc;
     }
 
     .solution-number {
-      color: #ffa116;
+      color: #ffffff;
       font-weight: 700;
       margin-right: 12px;
       min-width: 40px;
@@ -96,8 +96,8 @@
     }
 
     .solution-lang {
-      background-color: #ffa11620;
-      color: #ffa116;
+      background-color: #ffffff20;
+      color: #ffffff;
       font-size: 11px;
       padding: 3px 10px;
       border-radius: 12px;
@@ -109,7 +109,7 @@
     .arrow {
       margin-left: 16px;
       transition: transform 0.3s;
-      color: #ffa116;
+      color: #ffffff;
       font-size: 12px;
     }
 
@@ -121,7 +121,7 @@
       max-height: 0;
       overflow: hidden;
       transition: max-height 0.4s ease;
-      background-color: #0f0f1a;
+      background-color: #0a0a0a;
     }
 
     .code-panel.open {
@@ -134,17 +134,17 @@
       overflow-x: auto;
       font-size: 13px;
       line-height: 1.6;
-      color: #c5c8c6;
+      color: #d4d4d4;
       font-family: 'Fira Code', 'Consolas', 'Courier New', monospace;
     }
 
     .error {
-      color: #ff4d4d;
+      color: #ffffff;
     }
 
     .badge-count {
-      background-color: #ffa116;
-      color: #0f0f1a;
+      background-color: #ffffff;
+      color: #000000;
       font-size: 13px;
       font-weight: 700;
       padding: 4px 12px;
@@ -155,14 +155,30 @@
     footer {
       text-align: center;
       padding: 40px 20px;
-      color: #555;
+      color: #666666;
       font-size: 13px;
     }
 
     footer a {
-      color: #ffa116;
+      color: #ffffff;
       text-decoration: none;
     }
+
+    /* ── Syntax highlighting tokens (VS Code Dark+ inspired) ── */
+    .tok-keyword    { color: #569cd6; }
+    .tok-type       { color: #4ec9b0; }
+    .tok-number     { color: #b5cea8; }
+    .tok-string     { color: #ce9178; }
+    .tok-comment    { color: #6a9955; font-style: italic; }
+    .tok-annotation { color: #dcdcaa; }
+    .tok-method     { color: #dcdcaa; }
+    .tok-variable   { color: #9cdcfe; }
+    .tok-operator   { color: #d4d4d4; }
+    .tok-punctuation{ color: #d4d4d4; }
+    .tok-boolean    { color: #569cd6; }
+    .tok-class-name { color: #4ec9b0; }
+    .tok-builtin    { color: #dcdcaa; }
+    .tok-self       { color: #569cd6; font-style: italic; }
   </style>
 </head>
 <body>
@@ -171,10 +187,6 @@
     <p class="subtitle">Count: <span class="badge-count" id="badge-count">0</span></p>
     <ul class="solution-list" id="solution-list"></ul>
   </div>
-
-  <footer>
-    Built by <a href="https://github.com/MarlonSelvi" target="_blank">MarlonSelvi</a>
-  </footer>
 
   <script>
 
@@ -197,10 +209,8 @@
       { number: 888, title: "Fair Candy Swap",                          lang: "Java" },
     ];
 
-    // Set count dynamically
     document.getElementById('badge-count').textContent = solutions.length;
 
-    // Build file path from number, title, and lang
     function buildFilePath(sol) {
       const ext = sol.lang.toLowerCase() === 'python' ? 'py' : 'java';
       const slug = sol.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
@@ -217,7 +227,151 @@
         .replace(/"/g, '&quot;');
     }
 
-    // Render the list
+  // Syntax Highlighting Engine 
+
+    function highlightJava(code) {
+      const keywords = new Set([
+        'abstract','assert','break','case','catch','class','const','continue',
+        'default','do','else','enum','extends','final','finally','for','goto',
+        'if','implements','import','instanceof','interface','native','new',
+        'package','private','protected','public','return','static','strictfp',
+        'super','switch','synchronized','this','throw','throws','transient',
+        'try','volatile','while','void'
+      ]);
+      const types = new Set([
+        'boolean','byte','char','double','float','int','long','short',
+        'String','Integer','Long','Double','Float','Boolean','Character',
+        'List','ArrayList','LinkedList','Map','HashMap','TreeMap','Set',
+        'HashSet','TreeSet','Queue','Stack','Arrays','Collections',
+        'Object','Comparable','Iterable','Iterator','StringBuilder',
+        'Math','System'
+      ]);
+      const booleans = new Set(['true','false','null']);
+
+      const tokenRules = [
+        { regex: /\/\/[^\n]*/,                          cls: 'tok-comment' },
+        { regex: /\/\*[\s\S]*?\*\//,                    cls: 'tok-comment' },
+        { regex: /@\w+/,                                cls: 'tok-annotation' },
+        { regex: /"(?:\\.|[^"\\])*"/,                   cls: 'tok-string' },
+        { regex: /'(?:\\.|[^'\\])'/,                    cls: 'tok-string' },
+        { regex: /\b\d+\.?\d*[fFdDlL]?\b/,             cls: 'tok-number' },
+        { regex: /\b0[xX][0-9a-fA-F]+\b/,              cls: 'tok-number' },
+        { regex: /\b[a-zA-Z_]\w*(?=\s*\()/,            cls: null, resolve: w => keywords.has(w) ? 'tok-keyword' : 'tok-method' },
+        { regex: /\b[a-zA-Z_]\w*/,                      cls: null, resolve: w => {
+            if (keywords.has(w))  return 'tok-keyword';
+            if (booleans.has(w))  return 'tok-boolean';
+            if (types.has(w))     return 'tok-type';
+            if (w[0] === w[0].toUpperCase() && w[0] !== w[0].toLowerCase()) return 'tok-class-name';
+            return 'tok-variable';
+          }
+        },
+        { regex: /[+\-*/%=!<>&|^~?:]+/,                cls: 'tok-operator' },
+        { regex: /[{}()\[\];,.]/,                       cls: 'tok-punctuation' },
+      ];
+
+      return tokenize(code, tokenRules);
+    }
+
+    function highlightPython(code) {
+      const keywords = new Set([
+        'False','None','True','and','as','assert','async','await','break',
+        'class','continue','def','del','elif','else','except','finally',
+        'for','from','global','if','import','in','is','lambda','nonlocal',
+        'not','or','pass','raise','return','try','while','with','yield'
+      ]);
+      const builtins = new Set([
+        'print','len','range','int','str','float','list','dict','set',
+        'tuple','bool','type','isinstance','enumerate','zip','map','filter',
+        'sorted','reversed','sum','min','max','abs','any','all','open',
+        'input','super','property','staticmethod','classmethod','hasattr',
+        'getattr','setattr','delattr','repr','hash','id','iter','next',
+        'round','pow','divmod','format','chr','ord','hex','oct','bin'
+      ]);
+      const booleans = new Set(['True','False','None']);
+
+      const tokenRules = [
+        { regex: /#[^\n]*/,                              cls: 'tok-comment' },
+        { regex: /"""[\s\S]*?"""/,                       cls: 'tok-string' },
+        { regex: /'''[\s\S]*?'''/,                       cls: 'tok-string' },
+        { regex: /f"(?:\\.|[^"\\])*"/,                   cls: 'tok-string' },
+        { regex: /f'(?:\\.|[^'\\])*'/,                   cls: 'tok-string' },
+        { regex: /"(?:\\.|[^"\\])*"/,                    cls: 'tok-string' },
+        { regex: /'(?:\\.|[^'\\])*'/,                    cls: 'tok-string' },
+        { regex: /\b\d+\.?\d*[jJ]?\b/,                  cls: 'tok-number' },
+        { regex: /\b0[xXoObB][0-9a-fA-F_]+\b/,          cls: 'tok-number' },
+        { regex: /@\w+/,                                 cls: 'tok-annotation' },
+        { regex: /\b[a-zA-Z_]\w*(?=\s*\()/,             cls: null, resolve: w => {
+            if (keywords.has(w))  return 'tok-keyword';
+            if (builtins.has(w))  return 'tok-builtin';
+            return 'tok-method';
+          }
+        },
+        { regex: /\bself\b/,                             cls: 'tok-self' },
+        { regex: /\b[a-zA-Z_]\w*/,                       cls: null, resolve: w => {
+            if (keywords.has(w))  return 'tok-keyword';
+            if (booleans.has(w))  return 'tok-boolean';
+            if (builtins.has(w))  return 'tok-builtin';
+            if (w[0] === w[0].toUpperCase() && w[0] !== w[0].toLowerCase()) return 'tok-class-name';
+            return 'tok-variable';
+          }
+        },
+        { regex: /[+\-*/%=!<>&|^~@:]+/,                 cls: 'tok-operator' },
+        { regex: /[{}()\[\];,.]/,                        cls: 'tok-punctuation' },
+      ];
+
+      return tokenize(code, tokenRules);
+    }
+
+    function tokenize(code, rules) {
+      // Build one combined regex from all rules
+      const combined = new RegExp(
+        rules.map((r, i) => `(${r.regex.source})`).join('|'),
+        'gm'
+      );
+
+      let result = '';
+      let lastIndex = 0;
+
+      for (const match of code.matchAll(combined)) {
+        // Append any plain text before this match
+        if (match.index > lastIndex) {
+          result += escapeHTML(code.slice(lastIndex, match.index));
+        }
+
+        // Figure out which group matched
+        const fullMatch = match[0];
+        let cls = null;
+        for (let i = 0; i < rules.length; i++) {
+          if (match[i + 1] !== undefined) {
+            cls = rules[i].cls || (rules[i].resolve ? rules[i].resolve(fullMatch) : null);
+            break;
+          }
+        }
+
+        if (cls) {
+          result += `<span class="${cls}">${escapeHTML(fullMatch)}</span>`;
+        } else {
+          result += escapeHTML(fullMatch);
+        }
+
+        lastIndex = match.index + fullMatch.length;
+      }
+
+      // Append any remaining plain text
+      if (lastIndex < code.length) {
+        result += escapeHTML(code.slice(lastIndex));
+      }
+
+      return result;
+    }
+
+    function highlightCode(code, lang) {
+      if (lang.toLowerCase() === 'java') return highlightJava(code);
+      if (lang.toLowerCase() === 'python') return highlightPython(code);
+      return escapeHTML(code);
+    }
+
+
     const list = document.getElementById('solution-list');
 
     solutions.forEach((sol, i) => {
@@ -255,7 +409,6 @@
       panel.classList.add('open');
       arrow.classList.add('open');
 
-      // Only fetch once
       if (panel.dataset.loaded === 'true') return;
 
       try {
@@ -263,7 +416,8 @@
         const res = await fetch(filePath);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const code = await res.text();
-        panel.innerHTML = `<pre><code>${escapeHTML(code)}</code></pre>`;
+        const highlighted = highlightCode(code, solutions[index].lang);
+        panel.innerHTML = `<pre><code>${highlighted}</code></pre>`;
         panel.dataset.loaded = 'true';
       } catch (err) {
         panel.innerHTML = `<pre><code class="error">Error loading file: ${err.message}</code></pre>`;
