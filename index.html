@@ -166,12 +166,9 @@
   </style>
 </head>
 <body>
-  <header>
-    <h1><span>&lt;/&gt;</span> LeetCode Solutions</h1>
-  </header>
 
   <div class="container">
-    <p class="subtitle">Click a problem to view the solution code. <span class="badge-count">16</span></p>
+    <p class="subtitle">Count: <span class="badge-count" id="badge-count">0</span></p>
     <ul class="solution-list" id="solution-list"></ul>
   </div>
 
@@ -180,24 +177,37 @@
   </footer>
 
   <script>
+
     const solutions = [
-      { number: 1,   title: "Two Sum",                                   file: "solutions/1 Two Sum/1two-sum.java",                                                   lang: "Java" },
-      { number: 9,   title: "Palindrome Number",                         file: "solutions/9palindrome-number.java",                                                    lang: "Java" },
-      { number: 13,  title: "Roman to Integer",                          file: "solutions/13 Roman to Integer/13roman-to-integer.java",                                lang: "Java" },
-      { number: 26,  title: "Remove Duplicates from Sorted Array",       file: "solutions/26 Remove Duplicates from Sorted Array/26remove-duplicates-from-sorted-array.py", lang: "Python" },
-      { number: 35,  title: "Search Insert Position",                    file: "solutions/35 Search Insert Position/35search-insert-position.java",                    lang: "Java" },
-      { number: 66,  title: "Plus One",                                  file: "solutions/66 Plus One/66plus-one.java",                                                lang: "Java" },
-      { number: 100, title: "Same Tree",                                 file: "solutions/100 Same Tree/100same-tree.java",                                            lang: "Java" },
-      { number: 104, title: "Maximum Depth of Binary Tree",              file: "solutions/104 Maximum Depth of Binary Tree/104maximum-depth-of-binary-tree.java",      lang: "Java" },
-      { number: 118, title: "Pascal's Triangle",                         file: "solutions/118 Pascal's Triangle/118pascals-triangle.java",                             lang: "Java" },
-      { number: 121, title: "Best Time to Buy and Sell Stock",           file: "solutions/121 Best Time to Buy and Sell Stock/121best-time-to-buy-and-sell-stock.java", lang: "Java" },
-      { number: 145, title: "Binary Tree Postorder Traversal",           file: "solutions/145 Binary Tree Postorder Traversal/145binary-tree-postorder-traversal.java",lang: "Java" },
-      { number: 169, title: "Majority Element",                          file: "solutions/169 Majority Element/169majority-element.java",                              lang: "Java" },
-      { number: 202, title: "Happy Number",                              file: "solutions/202 Happy Number/202happy-number.java",                                      lang: "Java" },
-      { number: 217, title: "Contains Duplicate",                        file: "solutions/217 Contains Duplicate/217contains-duplicate.java",                          lang: "Java" },
-      { number: 448, title: "Find All Numbers Disappeared in an Array",  file: "solutions/448 Find All Numbers Disappeared in an Array/448find-all-numbers-disappeared-in-an-array.java", lang: "Java" },
-      { number: 888, title: "Fair Candy Swap",                           file: "solutions/888 Fair Candy Swap/888fair-candy-swap.java",                                lang: "Java" },
+      { number: 1,   title: "Two Sum",                                  lang: "Java" },
+      { number: 9,   title: "Palindrome Number",                        lang: "Java" },
+      { number: 13,  title: "Roman to Integer",                         lang: "Java" },
+      { number: 26,  title: "Remove Duplicates from Sorted Array",      lang: "Python" },
+      { number: 35,  title: "Search Insert Position",                   lang: "Java" },
+      { number: 66,  title: "Plus One",                                 lang: "Java" },
+      { number: 100, title: "Same Tree",                                lang: "Java" },
+      { number: 104, title: "Maximum Depth of Binary Tree",             lang: "Java" },
+      { number: 118, title: "Pascal's Triangle",                        lang: "Java" },
+      { number: 121, title: "Best Time to Buy and Sell Stock",          lang: "Java" },
+      { number: 145, title: "Binary Tree Postorder Traversal",          lang: "Java" },
+      { number: 169, title: "Majority Element",                         lang: "Java" },
+      { number: 202, title: "Happy Number",                             lang: "Java" },
+      { number: 217, title: "Contains Duplicate",                       lang: "Java" },
+      { number: 448, title: "Find All Numbers Disappeared in an Array", lang: "Java" },
+      { number: 888, title: "Fair Candy Swap",                          lang: "Java" },
     ];
+
+    // Set count dynamically
+    document.getElementById('badge-count').textContent = solutions.length;
+
+    // Build file path from number, title, and lang
+    function buildFilePath(sol) {
+      const ext = sol.lang.toLowerCase() === 'python' ? 'py' : 'java';
+      const slug = sol.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+      const folder = `${sol.number} ${sol.title}`;
+      const filename = `${sol.number}${slug}.${ext}`;
+      return `solutions/${folder}/${filename}`;
+    }
 
     function escapeHTML(str) {
       return str
@@ -249,7 +259,8 @@
       if (panel.dataset.loaded === 'true') return;
 
       try {
-        const res = await fetch(solutions[index].file);
+        const filePath = buildFilePath(solutions[index]);
+        const res = await fetch(filePath);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const code = await res.text();
         panel.innerHTML = `<pre><code>${escapeHTML(code)}</code></pre>`;
