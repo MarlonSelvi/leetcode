@@ -1,11 +1,266 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LeetCode Solutions</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #1a1a2e;
+      color: #e0e0e0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+    }
+
+    header {
+      background-color: #0f0f1a;
+      padding: 24px 40px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      border-bottom: 3px solid #ffa116;
+    }
+
+    header h1 {
+      font-size: 28px;
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    header h1 span {
+      color: #ffa116;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .subtitle {
+      color: #9a9a9a;
+      margin-bottom: 24px;
+      font-size: 14px;
+    }
+
+    .solution-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .solution-item {
+      background-color: #222240;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #2d2d50;
+      transition: border-color 0.2s;
+    }
+
+    .solution-item:hover {
+      border-color: #ffa116;
+    }
+
+    .solution-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      color: #e0e0e0;
+      text-decoration: none;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .solution-link:hover {
+      color: #ffa116;
+    }
+
+    .solution-number {
+      color: #ffa116;
+      font-weight: 700;
+      margin-right: 12px;
+      min-width: 40px;
+    }
+
+    .solution-title {
+      flex: 1;
+      font-size: 16px;
+    }
+
+    .solution-lang {
+      background-color: #ffa11620;
+      color: #ffa116;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-left: 12px;
+    }
+
+    .arrow {
+      margin-left: 16px;
+      transition: transform 0.3s;
+      color: #ffa116;
+      font-size: 12px;
+    }
+
+    .arrow.open {
+      transform: rotate(90deg);
+    }
+
+    .code-panel {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+      background-color: #0f0f1a;
+    }
+
+    .code-panel.open {
+      max-height: 2000px;
+    }
+
+    .code-panel pre {
+      padding: 20px;
+      margin: 0;
+      overflow-x: auto;
+      font-size: 13px;
+      line-height: 1.6;
+      color: #c5c8c6;
+      font-family: 'Fira Code', 'Consolas', 'Courier New', monospace;
+    }
+
+    .error {
+      color: #ff4d4d;
+    }
+
+    .badge-count {
+      background-color: #ffa116;
+      color: #0f0f1a;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 16px;
+      margin-left: 12px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: #555;
+      font-size: 13px;
+    }
+
+    footer a {
+      color: #ffa116;
+      text-decoration: none;
+    }
+  </style>
 </head>
 <body>
-    <h1>Hello World</h1>
+  <header>
+    <h1><span>&lt;/&gt;</span> LeetCode Solutions</h1>
+  </header>
+
+  <div class="container">
+    <p class="subtitle">Click a problem to view the solution code. <span class="badge-count">16</span></p>
+    <ul class="solution-list" id="solution-list"></ul>
+  </div>
+
+  <footer>
+    Built by <a href="https://github.com/MarlonSelvi" target="_blank">MarlonSelvi</a>
+  </footer>
+
+  <script>
+    // ======================================================
+    // Add new solutions here. The page handles the rest.
+    // ======================================================
+    const solutions = [
+      { number: 1,   title: "Two Sum",                                   file: "solutions/1 Two Sum/1two-sum.java",                                                   lang: "Java" },
+      { number: 9,   title: "Palindrome Number",                         file: "solutions/9palindrome-number.java",                                                    lang: "Java" },
+      { number: 13,  title: "Roman to Integer",                          file: "solutions/13 Roman to Integer/13roman-to-integer.java",                                lang: "Java" },
+      { number: 26,  title: "Remove Duplicates from Sorted Array",       file: "solutions/26 Remove Duplicates from Sorted Array/26remove-duplicates-from-sorted-array.py", lang: "Python" },
+      { number: 35,  title: "Search Insert Position",                    file: "solutions/35 Search Insert Position/35search-insert-position.java",                    lang: "Java" },
+      { number: 66,  title: "Plus One",                                  file: "solutions/66 Plus One/66plus-one.java",                                                lang: "Java" },
+      { number: 100, title: "Same Tree",                                 file: "solutions/100 Same Tree/100same-tree.java",                                            lang: "Java" },
+      { number: 104, title: "Maximum Depth of Binary Tree",              file: "solutions/104 Maximum Depth of Binary Tree/104maximum-depth-of-binary-tree.java",      lang: "Java" },
+      { number: 118, title: "Pascal's Triangle",                         file: "solutions/118 Pascal's Triangle/118pascals-triangle.java",                             lang: "Java" },
+      { number: 121, title: "Best Time to Buy and Sell Stock",           file: "solutions/121 Best Time to Buy and Sell Stock/121best-time-to-buy-and-sell-stock.java", lang: "Java" },
+      { number: 145, title: "Binary Tree Postorder Traversal",           file: "solutions/145 Binary Tree Postorder Traversal/145binary-tree-postorder-traversal.java",lang: "Java" },
+      { number: 169, title: "Majority Element",                          file: "solutions/169 Majority Element/169majority-element.java",                              lang: "Java" },
+      { number: 202, title: "Happy Number",                              file: "solutions/202 Happy Number/202happy-number.java",                                      lang: "Java" },
+      { number: 217, title: "Contains Duplicate",                        file: "solutions/217 Contains Duplicate/217contains-duplicate.java",                          lang: "Java" },
+      { number: 448, title: "Find All Numbers Disappeared in an Array",  file: "solutions/448 Find All Numbers Disappeared in an Array/448find-all-numbers-disappeared-in-an-array.java", lang: "Java" },
+      { number: 888, title: "Fair Candy Swap",                           file: "solutions/888 Fair Candy Swap/888fair-candy-swap.java",                                lang: "Java" },
+    ];
+
+    function escapeHTML(str) {
+      return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    // Render the list
+    const list = document.getElementById('solution-list');
+
+    solutions.forEach((sol, i) => {
+      const li = document.createElement('li');
+      li.className = 'solution-item';
+      li.innerHTML = `
+        <div class="solution-link" data-index="${i}">
+          <div style="display:flex;align-items:center;">
+            <span class="solution-number">#${sol.number}</span>
+            <span class="solution-title">${sol.title}</span>
+            <span class="solution-lang">${sol.lang}</span>
+          </div>
+          <span class="arrow">&#9654;</span>
+        </div>
+        <div class="code-panel" id="panel-${i}">
+          <pre><code>Loading...</code></pre>
+        </div>
+      `;
+      list.appendChild(li);
+
+      li.querySelector('.solution-link').addEventListener('click', () => togglePanel(i));
+    });
+
+    async function togglePanel(index) {
+      const panel = document.getElementById(`panel-${index}`);
+      const arrow = panel.previousElementSibling.querySelector('.arrow');
+      const isOpen = panel.classList.contains('open');
+
+      if (isOpen) {
+        panel.classList.remove('open');
+        arrow.classList.remove('open');
+        return;
+      }
+
+      panel.classList.add('open');
+      arrow.classList.add('open');
+
+      // Only fetch once
+      if (panel.dataset.loaded === 'true') return;
+
+      try {
+        const res = await fetch(solutions[index].file);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const code = await res.text();
+        panel.innerHTML = `<pre><code>${escapeHTML(code)}</code></pre>`;
+        panel.dataset.loaded = 'true';
+      } catch (err) {
+        panel.innerHTML = `<pre><code class="error">Error loading file: ${err.message}</code></pre>`;
+      }
+    }
+  </script>
 </body>
 </html>
